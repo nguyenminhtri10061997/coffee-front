@@ -14,6 +14,9 @@ import TableHead from '@material-ui/core/TableHead';
 // @material-ui/icons
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
+import Paper from '@material-ui/core/Paper';
+import Toolbar from '@material-ui/core/Toolbar';
+import AddIcon from '@material-ui/icons/Add';
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tasksStyle.js";
 import { reducer } from 'commonFunc/commonFunc'
@@ -44,71 +47,88 @@ export default function Tasks(props) {
       rowsPerPage: parseInt(event.target.value, 10)
     })
   }, [])
-  props.data.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage).map((value, idx) => props.header.map(header => console.log(value[header.col])))
-  
   return (
-    <Table className={classes.table}>
-      <TableHead>
-          <TableRow>
-            {(props.header || []).map(header => <TableCell>{header.name}</TableCell>)}
-            <TableCell align="right">Thao tác</TableCell>
-          </TableRow>
-        </TableHead>
-      <TableBody>
-        {props.data.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage).map((value, idx) => (
-          <TableRow key={`data_${idx}`} className={classes.tableRow}>
-            {(props.header || []).map(header => <TableCell className={tableCellClasses}>{value[header.col]}</TableCell>)}
-            <TableCell align='right' className={classes.tableActions}>
-              <div>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Edit Task"
-                  placement="top"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <IconButton
-                    aria-label="Edit"
-                    className={classes.tableActionButton}
-                  >
-                    <Edit
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.edit
-                      }
-                    />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top-start"
-                  title="Remove"
-                  placement="top"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <IconButton
-                    aria-label="Close"
-                    className={classes.tableActionButton}
-                  >
-                    <Close
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.close
-                      }
-                    />
-                  </IconButton>
-                </Tooltip>
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-      <TablePagination
-        rowsPerPageOptions={[10, 20, 50]}
-        component="div"
-        count={props.data.length || 0}
-        rowsPerPage={state.rowsPerPage}
-        page={state.page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Table>
+    <Paper>
+      <Toolbar style={{ float: 'right' }}>
+        <Tooltip title="Thêm mới">
+          <IconButton onClick={props.onAddClick}>
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+      </Toolbar>
+      <Table className={classes.table}>
+        <TableBody>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                {(props.header || []).map(header => <TableCell>{header.name}</TableCell>)}
+                <TableCell align="right">Thao tác</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+        </TableBody>
+        <TableBody>
+          <div style={{ height: 500, overflowY: 'auto' }}>
+            <Table className={classes.table}>
+              <TableBody>
+                {props.data.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage).map((value, idx) => (
+                  <TableRow key={`data_${idx}`} className={classes.tableRow}>
+                    {(props.header || []).map(header => <TableCell className={tableCellClasses}>{value[header.col]}</TableCell>)}
+                    <TableCell align='right' className={classes.tableActions}>
+                      <div>
+                        <Tooltip
+                          id="tooltip-top"
+                          title="Edit Task"
+                          placement="top"
+                          classes={{ tooltip: classes.tooltip }}
+                        >
+                          <IconButton
+                            aria-label="Edit"
+                            className={classes.tableActionButton}
+                          >
+                            <Edit
+                              className={
+                                classes.tableActionButtonIcon + " " + classes.edit
+                              }
+                            />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                          id="tooltip-top-start"
+                          title="Remove"
+                          placement="top"
+                          classes={{ tooltip: classes.tooltip }}
+                        >
+                          <IconButton
+                            aria-label="Close"
+                            className={classes.tableActionButton}
+                          >
+                            <Close
+                              className={
+                                classes.tableActionButtonIcon + " " + classes.close
+                              }
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </TableBody>
+        <TablePagination
+          rowsPerPageOptions={[10, 20, 50]}
+          component="div"
+          count={props.data.length || 0}
+          rowsPerPage={state.rowsPerPage}
+          page={state.page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </Table>
+    </Paper>
   );
 }
 

@@ -508,3 +508,11 @@ footer ul li a:hover {
 * {
   letter-spacing: normal !important;
 }
+
+.ant-form-item-explain.show-help-enter.show-help-enter-active.show-help {
+  color: red;
+  font-size: small;
+}
+.show-help-leave{
+  display: none;
+}

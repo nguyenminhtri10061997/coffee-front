@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useCallback, useRef } from "react";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Card from "components/Card/Card.js";
-import CardBody from "components/Card/CardBody.js";
 import TableNew from "components/TableNew/TableNew.js";
+import Modal from "./Modal";
 
 const dataMenu = [
   {
@@ -120,21 +119,27 @@ const header = [
   }
 ]
 
-export default function TableList() {
+const TableList = React.memo(() => {
+  const ModalRef = useRef(null)
+
+  const handleAddClick = useCallback(() => {
+    ModalRef.current.handleOpen()
+  }, [])
+  
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardBody>
-            <div style={{ height: 620, overflowY: 'auto' }}>
-              <TableNew
-                data={dataMenu}
-                header={header}
-              />
-            </div>
-          </CardBody>
-        </Card>
+        <TableNew
+          data={dataMenu}
+          header={header}
+          onAddClick={handleAddClick}
+        />
+        <Modal
+          ref={ModalRef} 
+        />
       </GridItem>
     </GridContainer>
   );
-}
+})
+
+export default TableList
